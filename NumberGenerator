@@ -1,0 +1,37 @@
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * Author: Jeff Janda								Date: 6.1.15
+ * Filename: NumberGenerator.java					COP2551-Project 2b
+ * Purpose:Generates a random ID number in the pattern of xxx-xx-xxxx with conditions
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+import java.util.Random;
+
+public class NumberGenerator 
+{
+
+	public static void main(String[] args) 
+	{
+		Random generator = new Random();
+		int num1, num2, num3;
+		//The algorithms below generate the random id number with the following conditions:
+		//num1 must not have an 8 or a 9 and be 3 digits
+		//num2 must  be less than 74 and be 2 digits
+		//num3 must be 4 digits long
+		
+		num1 = (generator.nextInt(8) * 100) + (generator.nextInt(8) * 10) + (generator.nextInt(8));
+		num2 = generator.nextInt(74);
+		num3 = generator.nextInt(10000);
+		
+		//formatting specifies the number of digits
+		//results  < 100, 10, or 1000, respective, are filled with a leading '0'
+		
+		System.out.printf("%03d-%02d-%04d", num1, num2, num3);
+
+	}
+
+}
+
+/*
+ * Sample output:
+ * 646-52-4492
+ */
