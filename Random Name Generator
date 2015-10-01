@@ -1,0 +1,140 @@
+/*
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * Author: Jeff Janda						Date: 6.1.2015
+ * Filename:UserNameGenerator.java				COP2551
+ * Purpose: Generates a user name using first and last name and a random number
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+
+import java.util.Random;
+import java.util.Scanner;
+public class UserNameGenerator 
+{
+	
+	//generateUserName method reformats name inputs into a valid user name.
+	//First 4 char of lastName, first 2 char of firstName, and number between 10 and 99
+	//this method assumes last names are at least 4 char long
+	
+	public static String generateUserName(String firstName, String lastName)
+	{
+		String userName;
+		int number;
+		
+		Random generate = new Random();
+		number= generate.nextInt(90) + 10;
+		userName = lastName.substring(0, 4) + firstName.substring(0, 2) + number;
+		
+		return userName.toLowerCase();
+	}//ends generateUserName method
+
+	
+	//firstNameTooShort method prevents a program crash 
+	//in the event a user enters a first name of less than 2 char in length
+	//and returns a valid first name for the generateUserName method
+	
+	public static String firstNameTooShort(String theFirstName)
+	{
+		Scanner stdin= new Scanner(System.in);
+		
+		String firstName=theFirstName;
+		
+		//prevents program crash if first name less than two char
+		while (firstName.length()<2)
+		{
+			System.out.println("First name must be at least two characters long");
+			System.out.println("Please enter your first name: ");
+			firstName = stdin.nextLine();
+			
+		}//end while
+		
+		return firstName;
+	}//end firstNameTooShort method
+	
+	
+	//lastNameTooShort method prevents a program crash
+	//in the event a user enters a last name of less than 2 char in length
+	//it also prompts for a middle name in the event a user's last name
+	//is culturally less than 4 char in length.
+	//Returns a valid last name for generateUserName method.
+	
+	public static String lastNameTooShort(String theLastName)
+	{
+		Scanner stdin= new Scanner(System.in);
+				
+		String middleName, lastName; 
+		
+		//prompts for Middle Name only for conditions where user has a culturally two char last name
+		//or enters a last name of less than 4 char
+		System.out.print("Please enter your middle name: ");
+		middleName = stdin.nextLine();
+		lastName = theLastName + middleName;
+		
+		//prevents a program crash if a user enters a last name/middle name combo of less than 4 char
+		while(lastName.length()<4)
+		{
+			System.out.println("Last name and/or middle name must be more than four characters in length.");
+			System.out.print("Please enter your last name: ");
+			lastName=stdin.nextLine();
+			System.out.print("Please enter your middle name: ");
+			middleName=stdin.nextLine();
+			lastName= lastName + middleName;
+		}//end while statement
+		
+		return lastName;
+	}
+	
+	
+	public static void main(String[] args) 
+	{
+		String firstName, lastName;
+		
+		Scanner stdin= new Scanner(System.in);
+		
+		//First Name Prompts
+		System.out.print("Please enter your first name: ");
+		firstName = stdin.nextLine();
+		
+		if (firstName.length()<2)
+			firstName = firstNameTooShort(firstName);
+		
+		//Last Name Prompts
+		System.out.print("Please enter your last name: ");
+		lastName = stdin.nextLine();
+		
+				
+		if (lastName.length()<4)
+			lastName = lastNameTooShort(lastName);
+		
+		//Generate User Name and Print To Console	
+		
+		System.out.println(generateUserName(firstName, lastName));
+	
+	}//ends main method
+}//ends Class
+
+/*
+++++++++++++++++++++++++++++++++++++++
+Output with all initial conditions met
+++++++++++++++++++++++++++++++++++++++
+
+Please enter your first name: Jeffrey
+Please enter your last name: Janda
+Your username is: JandJe94
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Output if with user input errors and correction statements
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Please enter your first name: J
+First name must be at least two characters long
+Please enter your first name: 
+Jeff
+Please enter your last name: J
+Please enter your middle name: B
+Last name and/or middle name must be more than four characters in length.
+Please enter your last name: Ja
+Please enter your middle name: Br
+Your username is: jabrje84
+
+
+*/
