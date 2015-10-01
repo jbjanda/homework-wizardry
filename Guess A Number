@@ -1,0 +1,159 @@
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * Author: Jeff Janda							Date: 6.16.15
+ * Filename: GuessANumber.java					COP 2551-Project 3
+ * Purpose: Allows a user to play a number guessing game
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+import java.util.*;
+
+public class GuessANumber 
+{
+	
+	
+	
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 							CUSTOM METHOD LIBRARY FOR RANDOM NUMBER GAME
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 
+ */
+	
+	/*++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 * 						YES OR NO
+	 * yesOrNo method takes a String parameter for a yes or no 
+	 * question and returns true or false for a conditional
+	 * statement. It also validates user input by accepting
+	 * a both upper and lower case inputs as well as both y
+	 * or n and yes or no. 
+	 * 
+	 * NOTE <enter> returns true.
+	 * 
+	 * TODO make input validation more robust and disallow
+	 * inputs that are not clear yes or no answers.
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	public static boolean yesOrNo(String answer)
+	{
+		boolean userContinue=true; 
+
+		
+		if (answer.toLowerCase().contains("y"))
+		{
+			userContinue=true;
+		}
+		else if (answer.toLowerCase().contains("n"))
+		{
+			userContinue=false;
+		}
+	
+
+		return userContinue;
+	}
+		
+	
+	/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 * 						PLAYGAME
+	 * playGame method calls an algorithm that generates a random
+	 * number and has the user guess what the number is while
+	 * tracking the number of guesses. 
+	 * Users may opt out of the game by entering 0.
+	 * 
+	 * TODO change playGame to a playRandomNumberGame class and 
+	 * allow users to select from multiple game objects and play
+	 * different games.
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	public static void playGame()
+	{
+		Scanner stdin = new Scanner(System.in);
+		Random random = new Random();
+		int number=random.nextInt(100)+1;
+		int playerGuess;
+		int numberOfGuesses=0;
+		boolean keepPlaying=true;
+		
+		System.out.println("I have selected a number between 1 and 100. \n"
+				+ "Make your guess or press \'0\' to quit.");
+		
+		
+		while (keepPlaying == true)
+		{
+			playerGuess=stdin.nextInt();
+			numberOfGuesses++;
+			
+			if(playerGuess>number)
+			
+				System.out.print("Your guess is too high, guess again or press \'0\' to quit. ");
+				
+			else if (playerGuess < number && playerGuess != 0)
+				System.out.print("Your guess is too low, guess again or press \'0\' to quit. ");
+			
+			else if (playerGuess == 0)
+				keepPlaying=false;
+			else
+				{
+				if (numberOfGuesses < 2)//Statement if user makes a correct guess in one try
+				System.out.println("No way! You guessed my number in "+ numberOfGuesses + " try.");	
+				
+				else
+				System.out.println("Pretty good! You guessed my number in "+ numberOfGuesses + " tries.");
+				keepPlaying=false;
+				}
+			
+		}
+		
+		
+	}
+
+	
+	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 * 									START OF THE MAIN METHOD
+	 * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	public static void main(String[] args) 
+	{
+		Scanner stdin = new Scanner(System.in);
+		
+		System.out.println("Would you like to play a guessing game? Please enter \'Yes\' or \'No\'");
+		
+		boolean playAgain = yesOrNo(stdin.nextLine()); //see yesOrNo documentation above for a description of method
+		
+		while(playAgain == true)
+		{
+			playGame();//see playGame documentation above for a description of the method
+			
+			System.out.println("Would you like to play again? Please enter \'Yes\' or \'No\'");
+			
+			playAgain = yesOrNo(stdin.nextLine());
+		}
+		
+		System.out.println("That was fun! let's do that again sometime.");
+		
+				
+	}
+
+}
+
+//SAMPLE OUTPUT
+
+/*
+Would you like to play a guessing game? Please enter 'Yes' or 'No'
+Yes
+I have selected a number between 1 and 100. 
+Make your guess or press '0' to quit.
+50
+Your guess is too low, guess again or press '0' to quit. 75
+Your guess is too low, guess again or press '0' to quit. 90
+Your guess is too low, guess again or press '0' to quit. 95
+Your guess is too low, guess again or press '0' to quit. 100
+Your guess is too high, guess again or press '0' to quit. 99
+Your guess is too high, guess again or press '0' to quit. 98
+Pretty good! You guessed my number in 7 tries.
+Would you like to play again? Please enter 'Yes' or 'No'
+y
+I have selected a number between 1 and 100. 
+Make your guess or press '0' to quit.
+0
+Would you like to play again? Please enter 'Yes' or 'No'
+no
+That was fun! let's do that again sometime.
+*/
